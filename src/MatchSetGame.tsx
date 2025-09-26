@@ -2,8 +2,9 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "./store/index";
 import { eventSlice } from "./store/eventSlice";
-import { getScore, useAppQueryParams } from "./utils";
+import { useAppQueryParams } from "./utils";
 import Breadcrumbs from "./Breadcrumbs";
+import { getScore } from "./scoreUtils";
 
 const MatchSetGame: React.FC = () => {
   const [queryParams, setQueryParams] = useAppQueryParams();

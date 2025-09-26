@@ -2,8 +2,9 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "./store/index";
 import { eventSlice, type Game } from "./store/eventSlice";
-import { getScore, useAppQueryParams } from "./utils";
+import { useAppQueryParams } from "./utils";
 import Breadcrumbs from "./Breadcrumbs";
+import { getScore, getTeamScoreOnSet } from "./scoreUtils";
 
 const MatchSet: React.FC = () => {
   const [queryParams, setQueryParams] = useAppQueryParams();
@@ -26,17 +27,7 @@ const MatchSet: React.FC = () => {
     return <div className="text-red-500">Set not found.</div>;
   }
 
-  // Calculate set score for each team
-  let team1SetScore = 0;
-  let team2SetScore = 0;
-  set.forEach((game) => {
-    const team1Points = game.filter((p) => p === "team_1").length;
-    const team2Points = game.filter((p) => p === "team_2").length;
-    const team1GameScore = getScore(team1Points, team2Points);
-    const team2GameScore = getScore(team2Points, team1Points);
-    if (team1GameScore === "Win") team1SetScore++;
-    if (team2GameScore === "Win") team2SetScore++;
-  });
+  const scores = getTeamScoreOnSet(set);
   // Find the current set's index for new game
   const setGameCount = set.length;
 
@@ -49,7 +40,9 @@ const MatchSet: React.FC = () => {
       <div className="w-full max-w-xl mb-6">
         <h2 className="text-lg font-semibold mb-2">
           Team 1{" "}
-          <span className="ml-2 text-base font-normal">({team1SetScore})</span>
+          <span className="ml-2 text-base font-normal">
+            ({scores.team1Score})
+          </span>
         </h2>
         <div className="flex gap-2 mb-2">
           <span className="border px-2 py-1 rounded w-full bg-gray-100 flex items-center">
@@ -60,7 +53,9 @@ const MatchSet: React.FC = () => {
         </div>
         <h2 className="text-lg font-semibold mb-2">
           Team 2{" "}
-          <span className="ml-2 text-base font-normal">({team2SetScore})</span>
+          <span className="ml-2 text-base font-normal">
+            ({scores.team2Score})
+          </span>
         </h2>
         <div className="flex gap-2 mb-2">
           <span className="border px-2 py-1 rounded w-full bg-gray-100 flex items-center">
