@@ -1,14 +1,12 @@
-import { StringParam, useQueryParams, withDefault } from "use-query-params";
 import Home from "./Home";
 import Event from "./Event";
 import Match from "./Match";
 import MatchSet from "./MatchSet";
 import MatchSetGame from "./MatchSetGame";
+import { useAppQueryParams } from "./utils";
 
 function App() {
-  const [queryParams] = useQueryParams({
-    page: withDefault(StringParam, "home"),
-  });
+  const [queryParams] = useAppQueryParams();
 
   if (queryParams.page === "home") {
     return <Home />;

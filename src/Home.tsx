@@ -1,35 +1,37 @@
 import { useState } from "react";
-import { StringParam, useQueryParams } from "use-query-params";
-import { useDispatch, useSelector } from 'react-redux';
-import { addEvent, eventSlice, type Event } from './store/eventSlice';
-import type { RootState } from './store/index';
+import { useDispatch, useSelector } from "react-redux";
+import { addEvent, eventSlice, type Event } from "./store/eventSlice";
+import type { RootState } from "./store/index";
+import { useAppQueryParams } from "./utils";
 
 const Home: React.FC = () => {
-  const [, setQuery] = useQueryParams({ page: StringParam, event_slug: StringParam });
+  const [, setQuery] = useAppQueryParams();
   const [showInput, setShowInput] = useState(false);
-  const [eventName, setEventName] = useState('');
-  const [error, setError] = useState('');
+  const [eventName, setEventName] = useState("");
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const events = useSelector((state: RootState) => state.events);
   const { removeEvent } = eventSlice.actions;
-  const [confirmDeleteSlug, setConfirmDeleteSlug] = useState<string | null>(null);
+  const [confirmDeleteSlug, setConfirmDeleteSlug] = useState<string | null>(
+    null
+  );
 
   const handleCreateEvent = () => {
     setShowInput(true);
-    setError('');
+    setError("");
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEventName(e.target.value);
-    setError('');
+    setError("");
   };
 
   // Utility to generate slug from event name
   const generateSlug = (name: string) =>
     name
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,11 +39,13 @@ const Home: React.FC = () => {
     if (!trimmedName) return;
     const slug = generateSlug(trimmedName);
     if (events[slug]) {
-      setError('Event slug already exists. Please choose a different name.');
+      setError("Event slug already exists. Please choose a different name.");
       return;
     }
-    dispatch(addEvent({ event_name: trimmedName, event_slug: slug, matches: [] }));
-    setQuery({ page: 'event', event_slug: slug });
+    dispatch(
+      addEvent({ event_name: trimmedName, event_slug: slug, matches: [] })
+    );
+    setQuery({ page: "event", event_slug: slug });
   };
 
   return (
@@ -49,11 +53,17 @@ const Home: React.FC = () => {
       <h1 className="text-3xl font-bold mb-4">Tennis Scoreboard</h1>
       {error && <div className="text-red-500 mb-2">{error}</div>}
       {!showInput ? (
-        <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={handleCreateEvent}>
+        <button
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={handleCreateEvent}
+        >
           Create New Event
         </button>
       ) : (
-        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-2">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col items-center gap-2"
+        >
           <input
             type="text"
             value={eventName}
@@ -62,7 +72,10 @@ const Home: React.FC = () => {
             className="border px-2 py-1 rounded"
             autoFocus
           />
-          <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded">
+          <button
+            type="submit"
+            className="px-4 py-2 bg-green-500 text-white rounded"
+          >
             Go to Event Page
           </button>
         </form>
@@ -77,10 +90,16 @@ const Home: React.FC = () => {
             <li key={event.event_slug} className="flex items-center gap-2">
               <button
                 className="flex-1 text-left px-4 py-2 border rounded hover:bg-blue-50"
-                onClick={() => setQuery({ page: 'event', event_slug: event.event_slug })}
+                onClick={() =>
+                  setQuery({ page: "event", event_slug: event.event_slug })
+                }
               >
-                <span className="font-bold text-blue-600">{event.event_name}</span>
-                <span className="ml-2 text-xs text-gray-400">({event.event_slug})</span>
+                <span className="font-bold text-blue-600">
+                  {event.event_name}
+                </span>
+                <span className="ml-2 text-xs text-gray-400">
+                  ({event.event_slug})
+                </span>
               </button>
               <button
                 className="px-2 py-1 bg-red-500 text-white rounded text-xs"
@@ -93,7 +112,9 @@ const Home: React.FC = () => {
           {confirmDeleteSlug && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
               <div className="bg-white p-6 rounded shadow-lg flex flex-col items-center">
-                <p className="mb-4">Are you sure you want to delete this event?</p>
+                <p className="mb-4">
+                  Are you sure you want to delete this event?
+                </p>
                 <div className="flex gap-4">
                   <button
                     className="px-4 py-2 bg-red-500 text-white rounded"

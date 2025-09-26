@@ -1,21 +1,11 @@
 import React from "react";
-import {
-  useQueryParams,
-  StringParam,
-  NumberParam,
-  withDefault,
-} from "use-query-params";
 import { useSelector, useDispatch } from "react-redux";
 import { eventSlice, type MatchSet } from "./store/eventSlice";
 import type { RootState } from "./store/index";
+import { useAppQueryParams } from "./utils";
 
 const Match: React.FC = () => {
-  const [query, setQueryParams] = useQueryParams({
-    page: StringParam,
-    event_slug: StringParam,
-    match: withDefault(NumberParam, -1),
-    match_set: withDefault(NumberParam, -1),
-  });
+  const [query, setQueryParams] = useAppQueryParams();
 
   const event = useSelector((state: RootState) =>
     query.event_slug ? state.events[query.event_slug] : undefined
