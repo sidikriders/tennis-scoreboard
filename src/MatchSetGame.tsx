@@ -1,24 +1,12 @@
 import React from "react";
-import {
-  useQueryParams,
-  StringParam,
-  NumberParam,
-  withDefault,
-} from "use-query-params";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "./store/index";
 import { eventSlice } from "./store/eventSlice";
-
-const tennisScore = [0, 15, 30, 40, "Adv", "Win"];
+import { getScore, useAppQueryParams } from "./utils";
+import Breadcrumbs from "./Breadcrumbs";
 
 const MatchSetGame: React.FC = () => {
-  const [queryParams, setQueryParams] = useQueryParams({
-    page: StringParam,
-    event_slug: StringParam,
-    match: withDefault(NumberParam, -1),
-    match_set: withDefault(NumberParam, -1),
-    match_set_game: withDefault(NumberParam, -1),
-  });
+  const [queryParams, setQueryParams] = useAppQueryParams();
   const dispatch = useDispatch();
   const { addEvent } = eventSlice.actions;
 
@@ -44,15 +32,6 @@ const MatchSetGame: React.FC = () => {
   // Calculate score for each team
   const team1Points = game.filter((p) => p === "team_1").length;
   const team2Points = game.filter((p) => p === "team_2").length;
-
-  // Tennis scoring logic (simplified, not handling deuce/adv/win fully)
-  const getScore = (points: number, other: number) => {
-    if (points < 4) return tennisScore[points];
-    if (points === other) return 40;
-    if (points === other + 1) return "Adv";
-    if (points > other + 1) return "Win";
-    return tennisScore[3];
-  };
 
   function addPoint(teamName: "team_1" | "team_2") {
     if (!event || !match || !set || !game) return;
@@ -92,9 +71,7 @@ const MatchSetGame: React.FC = () => {
     <div className="flex flex-col items-center mt-8">
       <h1 className="text-2xl font-bold mb-2">{event.event_name}</h1>
       <div className="mb-2 text-lg font-semibold">
-        Match {typeof matchIndex === "number" ? matchIndex + 1 : ""} | Set{" "}
-        {typeof setIndex === "number" ? setIndex + 1 : ""} | Game{" "}
-        {typeof gameIndex === "number" ? gameIndex + 1 : ""}
+        <Breadcrumbs />
       </div>
       <div className="w-full max-w-xl mb-6">
         <h2 className="text-lg font-semibold mb-2">Team 1</h2>
