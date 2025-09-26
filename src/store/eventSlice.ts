@@ -1,29 +1,25 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
-interface Game {
-  points: Array<"team_1" | "team_2">;
-  winner: "team_1" | "team_2" | null;
-}
+export type Game = Array<"team_1" | "team_2">;
 
+export type MatchSet = Game[];
+
+export type TennisMatch = {
+  team_1: {
+    player_1: string;
+    player_2?: string;
+  };
+  team_2: {
+    player_1: string;
+    player_2?: string;
+  };
+  sets: MatchSet[];
+};
 export interface Event {
   event_name: string;
   event_slug: string;
-  matches: Array<{
-    team_1: {
-        player_1: string;
-        player_2?: string;
-    },
-    team_2: {
-        player_1: string;
-        player_2?: string;
-    },
-    final_score: {
-      team_1: number;
-      team_2: number;
-    },
-    sets: Game[];
-  }>;
+  matches: TennisMatch[];
 }
 
 export interface EventState {
@@ -35,7 +31,7 @@ const initialState: EventState = {
 };
 
 export const eventSlice = createSlice({
-  name: 'event',
+  name: "event",
   initialState,
   reducers: {
     addEvent: (state, action: PayloadAction<Event>) => {

@@ -3,6 +3,7 @@ import Home from "./Home";
 import Event from "./Event";
 import Match from "./Match";
 import MatchSet from "./MatchSet";
+import MatchSetGame from "./MatchSetGame";
 
 function App() {
   const [queryParams] = useQueryParams({
@@ -21,10 +22,13 @@ function App() {
     return <Match />;
   }
 
-  if (queryParams.page === "set_match") {
+  if (queryParams.page === "match_set") {
     return <MatchSet />;
   }
 
+  if (queryParams.page === "set_game") {
+    return <MatchSetGame />;
+  }
   return null;
 }
 

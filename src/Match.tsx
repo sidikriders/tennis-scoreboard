@@ -6,7 +6,7 @@ import {
   withDefault,
 } from "use-query-params";
 import { useSelector, useDispatch } from "react-redux";
-import { eventSlice } from "./store/eventSlice";
+import { eventSlice, type MatchSet } from "./store/eventSlice";
 import type { RootState } from "./store/index";
 
 const Match: React.FC = () => {
@@ -14,7 +14,7 @@ const Match: React.FC = () => {
     page: StringParam,
     event_slug: StringParam,
     match: withDefault(NumberParam, -1),
-    set_match: withDefault(NumberParam, -1),
+    match_set: withDefault(NumberParam, -1),
   });
 
   const event = useSelector((state: RootState) =>
@@ -92,16 +92,19 @@ const Match: React.FC = () => {
             onClick={() => {
               if (!event || typeof matchIndex !== "number") return;
               if (!match.team_1.player_1 || !match.team_2.player_1) return;
-              const updatedMatches = event.matches.map((m, idx) =>
-                idx === matchIndex
-                  ? { ...m, sets: [...m.sets, { points: [], winner: null }] }
-                  : m
-              );
+              const updatedMatches = event.matches.map((m, idx) => {
+                if (idx === matchIndex) {
+                  // Add a new set: MatchSet is Game[], so push an empty array
+                  const newSet: MatchSet = [];
+                  return { ...m, sets: [...m.sets, newSet] };
+                }
+                return m;
+              });
               dispatch(addEvent({ ...event, matches: updatedMatches }));
               const newSetIndex = match.sets.length;
               setQueryParams({
-                page: "set_match",
-                set_match: newSetIndex,
+                page: "match_set",
+                match_set: newSetIndex,
               });
             }}
             disabled={!match.team_1.player_1 || !match.team_2.player_1}
