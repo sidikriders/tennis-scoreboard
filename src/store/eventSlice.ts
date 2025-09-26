@@ -41,6 +41,9 @@ export const eventSlice = createSlice({
     addEvent: (state, action: PayloadAction<Event>) => {
       state.events[action.payload.event_slug] = action.payload;
     },
+    removeEvent: (state, action: PayloadAction<string>) => {
+      delete state.events[action.payload];
+    },
   },
 });
 

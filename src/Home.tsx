@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { StringParam, useQueryParams } from "use-query-params";
 import { useDispatch, useSelector } from 'react-redux';
-import { addEvent } from './store/eventSlice';
+import { addEvent, eventSlice, type Event } from './store/eventSlice';
 import type { RootState } from './store/index';
 
 const Home: React.FC = () => {
@@ -11,6 +11,8 @@ const Home: React.FC = () => {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const events = useSelector((state: RootState) => state.events);
+  const { removeEvent } = eventSlice.actions;
+  const [confirmDeleteSlug, setConfirmDeleteSlug] = useState<string | null>(null);
 
   const handleCreateEvent = () => {
     setShowInput(true);
@@ -65,6 +67,55 @@ const Home: React.FC = () => {
           </button>
         </form>
       )}
+      <div className="w-full max-w-md mb-6">
+        <h2 className="text-xl font-semibold mb-2">Existing Events</h2>
+        <ul className="space-y-2">
+          {Object.values(events).length === 0 && (
+            <li className="text-gray-500">No events yet.</li>
+          )}
+          {Object.values(events).map((event: Event) => (
+            <li key={event.event_slug} className="flex items-center gap-2">
+              <button
+                className="flex-1 text-left px-4 py-2 border rounded hover:bg-blue-50"
+                onClick={() => setQuery({ page: 'event', event_slug: event.event_slug })}
+              >
+                <span className="font-bold text-blue-600">{event.event_name}</span>
+                <span className="ml-2 text-xs text-gray-400">({event.event_slug})</span>
+              </button>
+              <button
+                className="px-2 py-1 bg-red-500 text-white rounded text-xs"
+                onClick={() => setConfirmDeleteSlug(event.event_slug)}
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+          {confirmDeleteSlug && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
+              <div className="bg-white p-6 rounded shadow-lg flex flex-col items-center">
+                <p className="mb-4">Are you sure you want to delete this event?</p>
+                <div className="flex gap-4">
+                  <button
+                    className="px-4 py-2 bg-red-500 text-white rounded"
+                    onClick={() => {
+                      dispatch(removeEvent(confirmDeleteSlug));
+                      setConfirmDeleteSlug(null);
+                    }}
+                  >
+                    Yes, Delete
+                  </button>
+                  <button
+                    className="px-4 py-2 bg-gray-300 rounded"
+                    onClick={() => setConfirmDeleteSlug(null)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </ul>
+      </div>
     </div>
   );
 };
