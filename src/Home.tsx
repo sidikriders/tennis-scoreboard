@@ -97,12 +97,9 @@ const Home: React.FC = () => {
                 <span className="font-bold text-blue-600">
                   {event.event_name}
                 </span>
-                <span className="ml-2 text-xs text-gray-400">
-                  ({event.event_slug})
-                </span>
               </button>
               <button
-                className="px-2 py-1 bg-red-500 text-white rounded text-xs"
+                className="px-2 py-1 bg-red-500 text-white rounded text-xs ml-2"
                 onClick={() => setConfirmDeleteSlug(event.event_slug)}
               >
                 Delete
