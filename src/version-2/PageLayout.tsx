@@ -1,5 +1,6 @@
 import React from "react";
 
+const parentBgColor = "#b6c6d8"; // slightly darker blue-gray for the outer background
 const bgColor = "#e0e7ef"; // soft blue-gray, easy on the eyes
 
 interface PageLayoutProps {
@@ -10,12 +11,12 @@ interface PageLayoutProps {
 const PageLayout: React.FC<PageLayoutProps> = ({ title, children }) => {
   return (
     <div
-      style={{ minHeight: "100vh", background: bgColor }}
-      className="flex items-center justify-center py-8"
+      style={{ background: parentBgColor }}
+      className="flex items-center justify-center min-h-screen"
     >
       <div
-        className="bg-white border border-gray-300 rounded-xl shadow-md w-full max-w-[500px] p-6"
-        style={{ boxSizing: "border-box" }}
+        className="bg-white border border-gray-300 shadow-md w-full max-w-[500px] p-3 min-h-[500px]"
+        style={{ boxSizing: "border-box", backgroundColor: bgColor }}
       >
         {title && (
           <h1 className="text-2xl font-bold mb-4 text-center">{title}</h1>
