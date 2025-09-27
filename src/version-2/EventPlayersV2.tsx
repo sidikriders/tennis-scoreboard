@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../store";
 import { Users, UserPlus, Trash2, MoveLeft } from "lucide-react";
 import { updateEventV2 } from "../store/eventV2Slice";
+import EventNotFound from "./EventNotFound";
 
 const EventPlayersV2: React.FC = () => {
   const [queryParams, setQuerParams] = useAppQueryParams();
@@ -19,8 +20,8 @@ const EventPlayersV2: React.FC = () => {
 
   if (!event) {
     return (
-      <PageLayout title="Manage Players">
-        <p className="text-red-500">Event not found.</p>
+      <PageLayout title="Manage Players" titleIcon={<Users />}>
+        <EventNotFound />
       </PageLayout>
     );
   }

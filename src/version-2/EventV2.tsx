@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../store";
 import { Calendar, CalendarDays, MapPin, Swords, Users } from "lucide-react";
 import dayjs from "dayjs/esm/index.js";
+import EventNotFound from "./EventNotFound";
 
 const EventV2: React.FC = () => {
   const [queryParams, setQueryParams] = useAppQueryParams();
@@ -19,7 +20,7 @@ const EventV2: React.FC = () => {
         title={"Event Detail"}
         titleIcon={<CalendarDays className="inline-block mr-2" />}
       >
-        <p className="text-red-500">Event not found.</p>
+        <EventNotFound />
       </PageLayout>
     );
   }
