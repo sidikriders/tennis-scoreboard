@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../store";
 import { useAppQueryParams } from "../utils";
 import { removeEventV2 } from "../store/eventV2Slice";
+import { Calendar, MapPin } from "lucide-react";
+import dayjs from "dayjs/esm/index.js";
 
 const HomeV2: React.FC = () => {
   const dispatch = useDispatch();
@@ -40,14 +42,24 @@ const HomeV2: React.FC = () => {
 
               return (
                 <li key={eventSlug} className="flex items-center gap-2">
-                  <span className="flex-1 px-4 py-2 border rounded bg-gray-50">
+                  <div
+                    className="flex flex-col gap-1 flex-1 px-4 py-2 pb-3 border rounded bg-gray-50"
+                    onClick={() =>
+                      setQueryParams({ page: "event", event_slug: eventSlug })
+                    }
+                  >
                     <span className="font-bold text-blue-600">
                       {event.name}
                     </span>
-                    <span className="ml-2 text-xs text-gray-500">
-                      ({eventSlug})
+                    <span className="text-xs text-gray-500 flex items-center gap-1">
+                      <MapPin className="inline-block w-4 h-4" />
+                      {event.location || "Unknown"}
+                      <Calendar className="inline-block w-4 h-4" />
+                      {!event?.date
+                        ? "Unknown"
+                        : dayjs(event.date).format("DD MMM YYYY")}
                     </span>
-                  </span>
+                  </div>
                   <button
                     className="px-2 py-1 bg-red-500 text-white rounded text-xs ml-2"
                     onClick={() => setConfirmDeleteSlug(eventSlug)}
