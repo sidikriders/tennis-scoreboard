@@ -17,7 +17,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   return (
     <div
       style={{ background: parentBgColor }}
-      className="flex items-center justify-center min-h-screen p-2"
+      className="flex items-center justify-center min-h-screen px-2 py-8"
     >
       {!!title && typeof title === "string" && <title>{title}</title>}
       <div

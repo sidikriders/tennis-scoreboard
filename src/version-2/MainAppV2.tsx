@@ -3,6 +3,7 @@ import { useAppQueryParams } from "../utils";
 import HomeV2 from "./HomeV2";
 import CreateEventV2 from "./CreateEventV2";
 import EventV2 from "./EventV2";
+import EventPlayersV2 from "./EventPlayersV2";
 
 const MainAppV2: React.FC = () => {
   const [queryParams] = useAppQueryParams();
@@ -17,6 +18,10 @@ const MainAppV2: React.FC = () => {
 
   if (queryParams.page === "event") {
     return <EventV2 />;
+  }
+
+  if (queryParams.page === "manage_players") {
+    return <EventPlayersV2 />;
   }
 
   return null;
