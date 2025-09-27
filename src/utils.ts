@@ -7,6 +7,7 @@ import {
 
 export function useAppQueryParams() {
   return useQueryParams({
+    version: withDefault(NumberParam, 2),
     page: withDefault(StringParam, "home"),
     event_slug: withDefault(StringParam, ""),
     match: withDefault(NumberParam, -1),
