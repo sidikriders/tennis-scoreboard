@@ -6,9 +6,14 @@ const bgColor = "#e0e7ef"; // soft blue-gray, easy on the eyes
 interface PageLayoutProps {
   title?: React.ReactNode;
   children: React.ReactNode;
+  titleIcon?: React.ReactNode;
 }
 
-const PageLayout: React.FC<PageLayoutProps> = ({ title, children }) => {
+const PageLayout: React.FC<PageLayoutProps> = ({
+  title,
+  titleIcon,
+  children,
+}) => {
   return (
     <div
       style={{ background: parentBgColor }}
@@ -20,7 +25,15 @@ const PageLayout: React.FC<PageLayoutProps> = ({ title, children }) => {
         style={{ boxSizing: "border-box", backgroundColor: bgColor }}
       >
         {title && (
-          <h1 className="text-2xl font-bold mb-4 text-center">{title}</h1>
+          <h1 className="text-2xl font-bold mb-4 text-center">
+            {!titleIcon ? (
+              title
+            ) : (
+              <span>
+                {titleIcon} {title}
+              </span>
+            )}
+          </h1>
         )}
         {children}
       </div>
