@@ -17,21 +17,21 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   return (
     <div
       style={{ background: parentBgColor }}
-      className="flex items-center justify-center min-h-screen"
+      className="flex items-center justify-center min-h-screen p-2"
     >
       {!!title && typeof title === "string" && <title>{title}</title>}
       <div
-        className="bg-white border border-gray-300 shadow-md w-full max-w-[500px] p-3 min-h-[500px]"
+        className="bg-white border border-gray-300 rounded shadow-md w-full max-w-[500px] p-3 min-h-[500px]"
         style={{ boxSizing: "border-box", backgroundColor: bgColor }}
       >
         {title && (
-          <h1 className="text-2xl font-bold mb-4 text-center">
+          <h1 className="text-2xl font-bold mb-4 flex items-center gap-2 justify-center">
             {!titleIcon ? (
               title
             ) : (
-              <span>
+              <>
                 {titleIcon} {title}
-              </span>
+              </>
             )}
           </h1>
         )}

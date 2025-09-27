@@ -30,31 +30,29 @@ export type PageParam =
   | "match"
   | "match_set"
   | "set_game"
-  | "create_event";
+  | "create_event"
+  | "manage_players";
+
+const pages = [
+  "home",
+  "event",
+  "match",
+  "match_set",
+  "set_game",
+  "create_event",
+  "manage_players",
+] as string[];
+
 const CustomPageParam: QueryParamConfig<PageParam, string> = {
   encode: (value: PageParam | undefined) => {
     // Only encode if the value is one of the allowed strings
-    if (
-      value === "home" ||
-      value === "event" ||
-      value === "match" ||
-      value === "match_set" ||
-      value === "set_game" ||
-      value === "create_event"
-    ) {
+    if (typeof value === "string" && pages.includes(value)) {
       return value;
     }
     return undefined; // Do not update the URL with an invalid value
   },
   decode: (value: string | (string | null)[] | null | undefined) => {
-    if (
-      value === "home" ||
-      value === "event" ||
-      value === "match" ||
-      value === "match_set" ||
-      value === "set_game" ||
-      value === "create_event"
-    ) {
+    if (typeof value === "string" && pages.includes(value)) {
       return value;
     }
     return "home"; // Treat invalid values from the URL as "home"
