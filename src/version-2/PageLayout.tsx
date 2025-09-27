@@ -14,6 +14,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ title, children }) => {
       style={{ background: parentBgColor }}
       className="flex items-center justify-center min-h-screen"
     >
+      {!!title && typeof title === "string" && <title>{title}</title>}
       <div
         className="bg-white border border-gray-300 shadow-md w-full max-w-[500px] p-3 min-h-[500px]"
         style={{ boxSizing: "border-box", backgroundColor: bgColor }}

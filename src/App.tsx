@@ -4,7 +4,7 @@ import Match from "./Match";
 import MatchSet from "./MatchSet";
 import MatchSetGame from "./MatchSetGame";
 import { useAppQueryParams } from "./utils";
-import MainAppV2 from "./version-2";
+import MainAppV2 from "./version-2/MainAppV2";
 
 function App() {
   const [queryParams] = useAppQueryParams();
