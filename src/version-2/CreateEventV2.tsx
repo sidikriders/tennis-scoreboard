@@ -7,7 +7,7 @@ import type { RootState } from "../store/index";
 import { useAppQueryParams } from "../utils";
 
 const defaultConfigForm = {
-  setsToWin: 1,
+  setsPerMatch: 1,
   gamesPerSet: 4,
   deuceOnce: true,
 };
@@ -20,7 +20,9 @@ const CreateEventV2: React.FC = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("");
-  const [setsToWin, setSetsToWin] = useState(defaultConfigForm.setsToWin);
+  const [setsPerMatch, setsetsPerMatch] = useState(
+    defaultConfigForm.setsPerMatch
+  );
   const [gamesPerSet, setGamesPerSet] = useState(defaultConfigForm.gamesPerSet);
   const [deuceOnce, setDeuceOnce] = useState(defaultConfigForm.deuceOnce);
   const [error, setError] = useState("");
@@ -53,7 +55,7 @@ const CreateEventV2: React.FC = () => {
           players: [],
           matches: [],
           config: {
-            setsToWin,
+            setsPerMatch,
             gamesPerSet,
             maxPointsInGame: deuceOnce ? 5 : -1, // fixed for now
           },
@@ -64,7 +66,7 @@ const CreateEventV2: React.FC = () => {
     setName("");
     setDate("");
     setLocation("");
-    setSetsToWin(defaultConfigForm.setsToWin);
+    setsetsPerMatch(defaultConfigForm.setsPerMatch);
     setGamesPerSet(defaultConfigForm.gamesPerSet);
     setDeuceOnce(defaultConfigForm.deuceOnce);
     setError("");
@@ -113,14 +115,14 @@ const CreateEventV2: React.FC = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Sets to Win</label>
+          <label className="block mb-1 font-medium">Sets per Match</label>
           <input
             type="number"
             className="w-full border rounded px-2 py-1"
-            value={setsToWin}
+            value={setsPerMatch}
             min={1}
             max={5}
-            onChange={(e) => setSetsToWin(Number(e.target.value))}
+            onChange={(e) => setsetsPerMatch(Number(e.target.value))}
             required
           />
         </div>
