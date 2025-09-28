@@ -11,7 +11,7 @@ import dayjs from "dayjs/esm";
 import { addPointToTeamInMatchV2 } from "../store/eventV2Slice";
 
 const EventMatchV2: React.FC = () => {
-  const [queryParams] = useAppQueryParams();
+  const [queryParams, setQueryParams] = useAppQueryParams();
   const dispatch = useDispatch();
   const event = useSelector(
     (state: RootState) => state.events_v2?.[queryParams.event_slug]
@@ -34,6 +34,8 @@ const EventMatchV2: React.FC = () => {
   const handlePress = (team: 1 | 2) => {
     setPressedTeam(team);
     setTimeout(() => setPressedTeam(null), 150);
+
+    if (match?.status === "completed") return;
     addPoint(team === 1 ? "team_1" : "team_2");
   };
 
@@ -117,7 +119,7 @@ const EventMatchV2: React.FC = () => {
           <Swords className="w-5 h-5" /> Match {matchIndex + 1}
         </p>
       </div>
-      <p className="text-center text-sm mb-4">
+      <p className="text-center text-md my-4 font-semibold">
         Set: {setIndex + 1} - Game: {gameIndex + 1}
       </p>
 
@@ -149,15 +151,17 @@ const EventMatchV2: React.FC = () => {
                 <span className="text-4xl inline-block">
                   {parsedTeam1Points}
                 </span>
+              ) : parsedTeam1Points === "Win" ? (
+                <span className="text-7xl inline-block">
+                  {parsedTeam1Points}
+                </span>
               ) : (
                 parsedTeam1Points
               )}
             </span>
-            <span className="text-xs text-gray-500">Game Points</span>
             <span className="text-xl font-semibold text-blue-700 mt-2">
               {team1SetPoints}
             </span>
-            <span className="text-xs text-gray-500">Set Points</span>
           </div>
         </div>
         {/* VS divider */}
@@ -192,31 +196,12 @@ const EventMatchV2: React.FC = () => {
                 parsedTeam2Points
               )}
             </span>
-            <span className="text-xs text-gray-500">Game Points</span>
             <span className="text-xl font-semibold text-red-700 mt-2">
               {team2SetPoints}
             </span>
-            <span className="text-xs text-gray-500">Set Points</span>
           </div>
         </div>
       </div>
-
-      {/* button to add point */}
-      {/* <div className="flex gap-4 justify-center items-center mb-4">
-        <button
-          className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600 transition-colors flex-grow"
-          onClick={() => addPoint("team_1")}
-        >
-          Point to Team 1
-        </button>
-        <div className="text-2xl font-bold text-gray-400 opacity-0">VS</div>
-        <button
-          className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600 transition-colors flex-grow"
-          onClick={() => addPoint("team_2")}
-        >
-          Point to Team 2
-        </button>
-      </div> */}
       <div className="flex justify-center items-center my-8">
         <button
           className="px-4 py-2 bg-gray-400 text-white rounded shadow hover:bg-gray-500 transition-colors"
@@ -225,6 +210,16 @@ const EventMatchV2: React.FC = () => {
           Undo Last Point
         </button>
       </div>
+      {match?.status === "completed" && (
+        <div className="flex justify-center items-center my-8">
+          <button
+            className="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700 transition-colors"
+            onClick={() => setQueryParams({ page: "event", match: undefined })}
+          >
+            Back to Event Page
+          </button>
+        </div>
+      )}
     </PageLayout>
   );
 };
