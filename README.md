@@ -6,12 +6,13 @@ simple web app for tennis scoreboard with vibe coding on copilot gpt 4.1
 
 - create match functionality
   - select player [x]
-  - list of match [x]
+  - list of match [-]
     - sets list
       - score on set card
       - border blue if team 2 win, border red if team 2 win
-    - game list
-  - add point functionality
+  - add point functionality [x]
+  - undo point functionality
+  - create separate component for score box
   - etc...
 - klasemen
 
