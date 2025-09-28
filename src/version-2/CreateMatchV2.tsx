@@ -8,7 +8,7 @@ import dayjs from "dayjs/esm";
 import EventNotFound from "./EventNotFound";
 import { addMatchToEventV2, type MatchV2 } from "../store/eventV2Slice";
 
-const NewMatchV2: React.FC = () => {
+const CreateMatchV2: React.FC = () => {
   const [queryParams] = useAppQueryParams();
   const event = useSelector(
     (state: RootState) => state.events_v2?.[queryParams.event_slug]
@@ -62,7 +62,7 @@ const NewMatchV2: React.FC = () => {
   if (!!match || !isNewMatch) {
     return (
       <PageLayout title="Event Match" titleIcon={<Swords />}>
-        <div className="text-red-500">Match not found.</div>
+        <EventNotFound text="Match not found." />
       </PageLayout>
     );
   }
@@ -203,4 +203,4 @@ const PlayerDropdown: React.FC<{
   );
 };
 
-export default NewMatchV2;
+export default CreateMatchV2;
