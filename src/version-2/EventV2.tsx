@@ -14,6 +14,17 @@ const EventV2: React.FC = () => {
     eventSlug ? state.events_v2?.[eventSlug] : undefined
   );
 
+  const startNewMatch = () => {
+    if (!event) return;
+    const lastMatchIndex = event.matches.length - 1;
+    const newMatchIndex = lastMatchIndex + 1;
+    setQueryParams({
+      event_slug: eventSlug,
+      page: "match",
+      match: newMatchIndex,
+    });
+  };
+
   if (!event) {
     return (
       <PageLayout
@@ -43,6 +54,7 @@ const EventV2: React.FC = () => {
           disabled={
             Array.isArray(event.players) ? event.players.length < 2 : true
           }
+          onClick={() => startNewMatch()}
         >
           <Swords className="w-5 h-5" />
           Start Match

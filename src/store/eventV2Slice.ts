@@ -61,9 +61,18 @@ export const eventV2Slice = createSlice({
     removeEventV2: (state, action: PayloadAction<string>) => {
       delete state[action.payload];
     },
+    addMatchToEventV2: (
+      state,
+      action: PayloadAction<{ slug: string; match: MatchV2 }>
+    ) => {
+      const event = state[action.payload.slug];
+      if (event) {
+        event.matches.push(action.payload.match);
+      }
+    },
   },
 });
 
-export const { addEventV2, updateEventV2, removeEventV2 } =
+export const { addEventV2, updateEventV2, removeEventV2, addMatchToEventV2 } =
   eventV2Slice.actions;
 export default eventV2Slice.reducer;
